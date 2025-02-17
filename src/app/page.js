@@ -5,6 +5,7 @@ import Services from "./services/page"
 import Locations from "./locations/page"
 import ContactUs from "./contactus/page"
 import Gallery from "./gallery/page";
+import Footer from "./footer/page"
 export default function Home() {
   return (
     <div className="">
@@ -14,6 +15,7 @@ export default function Home() {
       <section id="locations"><Locations/></section>
       <section id="contactus"><ContactUs/></section>
       <section id="gallery"><Gallery/></section>
+      <section id="footer"><Footer/></section>
     </div>
   );
 }
