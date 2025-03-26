@@ -68,12 +68,12 @@ const Page = () => {
             Your All-in-One Exterior Maintenance Solution
           </h1>
           <p className="text-xl md:text-2xl mb-8">
-            Expert Pressure Washing, Gutter Cleaning, Roof Cleaning, House Washing, and More in Tri-Cities and Vancouver.
+            Professional Pressure Washing, Gutter Cleaning, Roof Cleaning, House Washing, and More in Tri-Cities and Vancouver.
           </p>
           <a 
             href="/#contactus" 
             onClick={scrollToContact}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300"
+            className="bg-blue-400 hover:bg-green-400 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300"
           >
             Book Appointment
           </a>

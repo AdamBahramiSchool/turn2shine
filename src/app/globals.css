@@ -24,3 +24,8 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}

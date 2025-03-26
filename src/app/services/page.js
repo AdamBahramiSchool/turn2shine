@@ -1,69 +1,113 @@
-import React from 'react'
+'use client';
+import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
+import VanillaTilt from 'vanilla-tilt';
 
-const page = () => {
-    const services = [
-        "Pressure Washing",
-        "Gutter Cleaning",
-        "Window Cleaning",
-        "Roof Cleaning and Moss Removal",
-        "House Washing",
-        "Deck and Patio Cleaning",
-        "Driveway and Walkway Cleaning",
-        "Fence Cleaning and Restoration",
-        "Exterior Painting Preparation"
-      ];
-    
-      return (
-        <div className="bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl text-center mb-8">
-              Our Services
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-white rounded-lg shadow-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Comprehensive Exterior Care</h3>
-                <p className="text-gray-600 mb-4">
-                  As your all-in-one exterior maintenance solution in Vancouver and Tri-Cities, we offer a wide range of services to keep your property looking its best:
-                </p>
-                <ul className="list-disc pl-5 text-gray-600">
-                  {services.map((service, index) => (
-                    <li key={index} className="mb-2">{service}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="bg-white rounded-lg shadow-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Our Commitment to Excellence</h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start">
-                    <svg className="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <p className="text-gray-600">Experienced and professional team</p>
-                  </li>
-                  <li className="flex items-start">
-                    <svg className="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <p className="text-gray-600">Eco-friendly cleaning solutions</p>
-                  </li>
-                  <li className="flex items-start">
-                    <svg className="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <p className="text-gray-600">Attention to detail in every job</p>
-                  </li>
-                  <li className="flex items-start">
-                    <svg className="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <p className="text-gray-600">Customized solutions for your property</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
+const Page = () => {
+  const cardRefs = useRef([]);
+
+  const cardImages = [
+    "/pressurewashing1.jpg",
+    "/windowcleaning1.jpg",
+    "/guttercleaning1.jpg",
+    "/christmaslights1.jpg"
+  ];
+
+  const titles = [
+    "Pressure Washing",
+    "Window Cleaning",
+    "Gutter Cleaning",
+    "Christmas Lights"
+  ];
+
+  useEffect(() => {
+    cardRefs.current.forEach((card) => {
+      if (card) {
+        VanillaTilt.init(card, {
+          max: 15,
+          speed: 1200,
+          perspective: 1400,
+          glare: true,
+          "max-glare": 0.2,
+          scale: 1.04,
+          easing: "cubic-bezier(.03,.98,.52,.99)",
+        });
+      }
+    });
+  }, []);
+
+  return (
+    <div className="bg-blue-200 py-12 px-4 sm:px-6 lg:px-8 flex flex-col">
+      {/* Title */}
+      <h1 className="text-4xl text-white md:text-5xl lg:text-6xl font-bold mb-4 text-center">
+        Our Services
+      </h1>
+
+      {/* Hero Image */}
+      <div className="relative w-full h-[500px] mb-8 rounded-xl overflow-hidden max-w-screen-lg mx-auto">
+        <Image
+          src="/suburbanhome.jpg"
+          alt="Exterior maintenance services"
+          fill
+          priority
+          className="object-cover rounded-xl"
+        />
+      </div>
+
+      {/* Slogan */}
+      <h2 className="text-center text-white/90 text-xl md:text-2xl font-semibold italic mb-8 px-6 md:px-20 lg:px-32 max-w-4xl mx-auto leading-relaxed drop-shadow-md">
+        From Grime to Prime — Turn2Shine Has You Covered! Why spend your weekends scrubbing when Turn2Shine can make your home sparkle in just one day? From windows to driveways, gutters to Christmas lights — we clean it all, so you don’t have to lift a finger (or a ladder). Let your home shine bright, all year round.
+      </h2>
+
+      {/* Tilt Cards */}
+     
+   {/* Tilt Cards */}
+<div className="flex flex-wrap justify-center gap-6">
+  {cardImages.map((img, i) => (
+    <div key={i} className="w-full sm:w-1/2 md:w-1/5 lg:w-1/5 flex flex-col items-center">
+      
+      {/* Tilt Card */}
+      <div
+        ref={(el) => (cardRefs.current[i] = el)}
+        className="card w-full overflow-hidden rounded-lg shadow-lg cursor-pointer"
+      >
+        <div className="relative w-full h-[200px]">
+          <Image
+            src={img}
+            alt={titles[i]}
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <h3 className="text-white text-md font-semibold text-center px-2">
+              {titles[i]}
+            </h3>
           </div>
         </div>
-      )
-}
+      </div>
 
-export default page
+      {/* See More Button (below tilt card) */}
+      <button className="mt-4 mb-2 bg-green-400 text-white text-sm px-5 py-2 rounded-full hover:bg-green-500 transition-colors duration-300">
+        See More
+      </button>
+    </div>
+  ))}
+  <div className="flex justify-center gap-6 mt-5">
+  <button className="bg-blue-800 text-white text-lg mr-10 px-6 py-3 rounded-full hover:bg-green-400 transition-colors duration-300">
+    Get a Quote
+  </button>
+  <button className="bg-blue-800 text-white text-lg px-10 py-5 rounded-full hover:bg-green-400 transition-colors duration-300">
+    Book a Service
+  </button>
+</div>
+
+</div>
+
+
+
+
+    </div>
+  );
+};
+
+export default Page;

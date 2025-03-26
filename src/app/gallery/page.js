@@ -17,6 +17,7 @@ const Gallery = () => {
   }, []);
 
   return (
+    <div className="bg-blue-200">
     <div className="w-full max-w-4xl mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-center mb-8">Our Gallery</h2>
       <div className="relative w-full h-0" style={{ paddingBottom: '56.25%' }}> {/* 16:9 Aspect Ratio */}
@@ -37,6 +38,7 @@ const Gallery = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
