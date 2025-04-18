@@ -18,6 +18,7 @@ const Navbar = () => {
     { name: 'Locations', href: '/locations' },
     { name: 'Contact Us', dropdown: true },
     { name: 'Gallery', href: '/gallery' },
+    { name: 'Get a Quote', href: '/Quote' },
   ];
 
   const serviceItems = [
@@ -42,9 +43,12 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex space-x-4 items-center">
-            {navItems.map((item) => {
-              if (item.dropdown && item.name === 'Services') {
+          <div className="hidden md:flex space-x-4 items-center ml-auto">
+            <div className="flex items-center mr-2 md:mr-4 lg:mr-6 ml-8 md:ml-12 lg:ml-24 space-x-2 md:space-x-3 lg:space-x-4">
+              {navItems.map((item) => {
+                if (item.name === 'Get a Quote') return null; // Exclude from main nav
+
+                if (item.dropdown && item.name === 'Services') {
                 return (
                   <div key={item.name} className="relative group">
                     <button className="hover:bg-green-400 px-3 py-2 rounded-md text-sm font-medium">
@@ -101,7 +105,13 @@ const Navbar = () => {
                   </span>
                 </Link>
               );
-            })}
+              })}
+            </div>
+            <Link href="/Quote">
+              <button className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-full">
+                Get a Quote
+              </button>
+            </Link>
           </div>
 
           {/* Mobile menu toggle */}
@@ -147,52 +157,56 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden absolute top-16 left-0 w-full bg-blue-500">
           <div className="px-2 pt-2 pb-3 sm:px-3 bg-blue-300">
-            {navItems.map((item) =>
-              item.dropdown ? (
-                <div key={item.name} className="mb-2">
-                  <button
-                    onClick={
-                      item.name === 'Services' ? toggleServices : toggleContact
-                    }
-                    className="hover:bg-green-400 text-white font-bold w-full text-left block px-3 py-2 rounded-md text-base border border-white"
-                  >
-                    {item.name}
-                  </button>
-
-                  {item.name === 'Services' && servicesOpen && (
-                    <div className="ml-4 border-l border-gray-700 pl-4 mt-2">
-                      {serviceItems.map((sub) => (
-                        <Link key={sub.name} href={sub.href}>
-                          <span className="block hover:bg-green-400 text-white font-bold px-3 py-2 rounded-md text-base border border-white mb-2">
-                            {sub.name}
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-
-                  {item.name === 'Contact Us' && contactOpen && (
-                    <div className="ml-4 border-l border-gray-700 pl-4 mt-2">
-                      {contactItems.map((sub) => (
-                        <Link key={sub.name} href={sub.href}>
-                          <span className="block hover:bg-green-400 text-white font-bold px-3 py-2 rounded-md text-base border border-white mb-2">
-                            {sub.name}
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div key={item.name} className="mb-2">
-                  <Link href={item.href}>
-                    <span className="hover:bg-green-400 block text-white font-bold px-3 py-2 rounded-md text-base font-medium border border-white">
+            {navItems.map((item) => {
+              if (item.dropdown) {
+                return (
+                  <div key={item.name} className="mb-2">
+                    <button
+                      onClick={
+                        item.name === 'Services' ? toggleServices : toggleContact
+                      }
+                      className="hover:bg-green-400 text-white font-bold w-full text-left block px-3 py-2 rounded-md text-base border border-white"
+                    >
                       {item.name}
-                    </span>
-                  </Link>
-                </div>
-              )
-            )}
+                    </button>
+
+                    {item.name === 'Services' && servicesOpen && (
+                      <div className="ml-4 border-l border-gray-700 pl-4 mt-2">
+                        {serviceItems.map((sub) => (
+                          <Link key={sub.name} href={sub.href}>
+                            <span className="block hover:bg-green-400 text-white font-bold px-3 py-2 rounded-md text-base border border-white mb-2">
+                              {sub.name}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+
+                    {item.name === 'Contact Us' && contactOpen && (
+                      <div className="ml-4 border-l border-gray-700 pl-4 mt-2">
+                        {contactItems.map((sub) => (
+                          <Link key={sub.name} href={sub.href}>
+                            <span className="block hover:bg-green-400 text-white font-bold px-3 py-2 rounded-md text-base border border-white mb-2">
+                              {sub.name}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={item.name} className="mb-2">
+                    <Link href={item.href}>
+                      <span className={`hover:bg-green-400 block text-white font-bold px-3 py-2 rounded-md text-base font-medium border border-white ${item.name === 'Get a Quote' ? 'bg-green-400 rounded-full text-center' : ''}`}>
+                        {item.name}
+                      </span>
+                    </Link>
+                  </div>
+                );
+              }
+            })}
           </div>
         </div>
       )}
