@@ -1,54 +1,46 @@
-import nodemailer from 'nodemailer';
+import { createClient } from '@supabase/supabase-js';
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { first_name, last_name, phone, email, location, service, other_service, accommodations } = req.body;
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Create a transporter using SMTP
-    let transporter = nodemailer.createTransport({
-      host: "your-smtp-host",
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+export async function POST(req) {
+  try {
+    const body = await req.json(); // Read JSON body
+    const { first_name, last_name, phone, email, address, accommodations } = body;
 
-    try {
-      // Send email
-      await transporter.sendMail({
-        from: '"Your Company" <from@example.com>',
-        to: "your-email@example.com",
-        subject: "New Contact Form Submission",
-        text: `
-          Name: ${first_name} ${last_name}
-          Phone: ${phone}
-          Email: ${email}
-          Location: ${location}
-          Service: ${service}
-          ${service === 'Other' ? `Other Service: ${other_service}` : ''}
-          Accommodations: ${accommodations}
-        `,
-        html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${first_name} ${last_name}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Location:</strong> ${location}</p>
-          <p><strong>Service:</strong> ${service}</p>
-          ${service === 'Other' ? `<p><strong>Other Service:</strong> ${other_service}</p>` : ''}
-          <p><strong>Accommodations:</strong> ${accommodations}</p>
-        `,
+    // Insert data into Supabase table
+    const { data, error } = await supabase
+      .from('contact_us') // Replace with your Supabase table name
+      .insert([
+        {
+          first_name,
+          last_name,
+          phone,
+          email,
+          address,
+          accommodations,
+        },
+      ]);
+
+    if (error) {
+      console.error('Error inserting data into Supabase:', error);
+      return new Response(JSON.stringify({ message: 'Failed to save data to database', error: error.message }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
       });
-
-      res.status(200).json({ message: 'Email sent successfully' });
-    } catch (error) {
-      console.error('Error sending email:', error);
-      res.status(500).json({ message: 'Failed to send email' });
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+
+    return new Response(JSON.stringify({ message: 'Data saved successfully', data }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    console.error('Error processing request:', error);
+    return new Response(JSON.stringify({ message: 'Internal server error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
