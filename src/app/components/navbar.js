@@ -7,13 +7,15 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [whyUsOpen, setWhyUsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleServices = () => setServicesOpen(!servicesOpen);
   const toggleContact = () => setContactOpen(!contactOpen);
+  const toggleWhyUs = () => setWhyUsOpen(!whyUsOpen);
 
   const navItems = [
-    { name: 'Why Us', href: '/whyus' },
+    { name: 'Why Us', dropdown: true },
     { name: 'Services', dropdown: true },
     { name: 'Locations', href: '/locations' },
     { name: 'Contact Us', dropdown: true },
@@ -28,6 +30,13 @@ const Navbar = () => {
     { name: 'Christmas Lights', href: '/ChristmasLights' },
     { name: 'Quote/Book Appointment', href: '/Quote' },
   ];
+
+  const WhyUsItems=[
+    {name:"Why Choose Us", href:"/WhyUs"},
+    {name:"Our Pricing", href:"/Pricing"},
+    {name:"Our Promise", href:"/Promise"},
+    {name:"Our Shining Effect", href:"/ShiningEffect"},
+  ]
 
   const contactItems = [
     { name: 'Ask Us Questions', href: '/contactus' },
@@ -48,63 +57,56 @@ const Navbar = () => {
               {navItems.map((item) => {
                 if (item.name === 'Get a Quote') return null; // Exclude from main nav
 
-                if (item.dropdown && item.name === 'Services') {
-                return (
-                  <div key={item.name} className="relative group">
-                    <button className="hover:bg-green-400 px-3 py-2 rounded-md text-sm font-medium">
-                      {item.name}
-                    </button>
-                    <div className="absolute left-0 mt-2 w-64 bg-blue-300 text-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
-                      {serviceItems.map((sub, index) => (
-                        <Link key={sub.name} href={sub.href}>
-                          <div
-                            className={`px-4 py-2 text-sm font-bold hover:bg-green-400 ${
-                              index !== serviceItems.length - 1
-                                ? 'border-b border-white'
-                                : ''
-                            }`}
-                          >
-                            {sub.name}
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                );
-              }
+                if (item.dropdown) {
+                  let dropdownItems = [];
+                  let toggleFunction;
+                  let isOpenState;
 
-              if (item.dropdown && item.name === 'Contact Us') {
-                return (
-                  <div key={item.name} className="relative group">
-                    <button className="hover:bg-green-400 px-3 py-2 rounded-md text-sm font-medium">
-                      {item.name}
-                    </button>
-                    <div className="absolute left-0 mt-2 w-64 bg-blue-300 text-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
-                      {contactItems.map((sub, index) => (
-                        <Link key={sub.name} href={sub.href}>
-                          <div
-                            className={`px-4 py-2 text-sm font-bold hover:bg-green-400 ${
-                              index !== contactItems.length - 1
-                                ? 'border-b border-white'
-                                : ''
-                            }`}
-                          >
-                            {sub.name}
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                );
-              }
+                  if (item.name === 'Services') {
+                    dropdownItems = serviceItems;
+                    toggleFunction = toggleServices;
+                    isOpenState = servicesOpen;
+                  } else if (item.name === 'Contact Us') {
+                    dropdownItems = contactItems;
+                    toggleFunction = toggleContact;
+                    isOpenState = contactOpen;
+                  } else if (item.name === 'Why Us') {
+                    dropdownItems = WhyUsItems;
+                    toggleFunction = toggleWhyUs;
+                    isOpenState = whyUsOpen;
+                  }
 
-              return (
-                <Link key={item.name} href={item.href}>
-                  <span className="hover:bg-green-400 px-3 py-2 rounded-md text-sm font-medium">
-                    {item.name}
-                  </span>
-                </Link>
-              );
+                  return (
+                    <div key={item.name} className="relative group">
+                      <button className="hover:bg-green-400 px-3 py-2 rounded-md text-sm font-medium">
+                        {item.name}
+                      </button>
+                      <div className="absolute left-0 mt-2 w-64 bg-blue-300 text-white rounded-md shadow-lg invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 z-50">
+                        {dropdownItems.map((sub, index) => (
+                          <Link key={sub.name} href={sub.href}>
+                            <div
+                              className={`px-4 py-2 text-sm font-bold hover:bg-green-400 ${
+                                index !== dropdownItems.length - 1
+                                  ? 'border-b border-white'
+                                  : ''
+                              }`}
+                            >
+                              {sub.name}
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link key={item.name} href={item.href}>
+                    <span className="hover:bg-green-400 px-3 py-2 rounded-md text-sm font-medium">
+                      {item.name}
+                    </span>
+                  </Link>
+                );
               })}
             </div>
             <Link href="/Quote">
@@ -162,15 +164,17 @@ const Navbar = () => {
                 return (
                   <div key={item.name} className="mb-2">
                     <button
-                      onClick={
-                        item.name === 'Services' ? toggleServices : toggleContact
-                      }
+                      onClick={() => {
+                        if (item.name === 'Services') toggleServices();
+                        else if (item.name === 'Contact Us') toggleContact();
+                        else if (item.name === 'Why Us') toggleWhyUs();
+                      }}
                       className="hover:bg-green-400 text-white font-bold w-full text-left block px-3 py-2 rounded-md text-base border border-white"
                     >
                       {item.name}
                     </button>
 
-                    {item.name === 'Services' && servicesOpen && (
+                    {(item.name === 'Services' && servicesOpen) && (
                       <div className="ml-4 border-l border-gray-700 pl-4 mt-2">
                         {serviceItems.map((sub) => (
                           <Link key={sub.name} href={sub.href}>
@@ -182,9 +186,21 @@ const Navbar = () => {
                       </div>
                     )}
 
-                    {item.name === 'Contact Us' && contactOpen && (
+                    {(item.name === 'Contact Us' && contactOpen) && (
                       <div className="ml-4 border-l border-gray-700 pl-4 mt-2">
                         {contactItems.map((sub) => (
+                          <Link key={sub.name} href={sub.href}>
+                            <span className="block hover:bg-green-400 text-white font-bold px-3 py-2 rounded-md text-base border border-white mb-2">
+                              {sub.name}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+
+                    {(item.name === 'Why Us' && whyUsOpen) && (
+                      <div className="ml-4 border-l border-gray-700 pl-4 mt-2">
+                        {WhyUsItems.map((sub) => (
                           <Link key={sub.name} href={sub.href}>
                             <span className="block hover:bg-green-400 text-white font-bold px-3 py-2 rounded-md text-base border border-white mb-2">
                               {sub.name}

@@ -2,8 +2,9 @@
 import React from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
-
+import { useRouter } from 'next/navigation';
 const Page = () => {
+  const router = useRouter();
   const scrollToContact = (e) => {
     e.preventDefault();
     const contactSection = document.getElementById('contactus');
@@ -70,13 +71,12 @@ const Page = () => {
           <p className="text-xl md:text-2xl mb-8">
             Professional Pressure Washing, Gutter Cleaning, Roof Cleaning, House Washing, and More in Tri-Cities and Vancouver.
           </p>
-          <a 
-            href="/#contactus" 
-            onClick={scrollToContact}
+          <button
+            onClick={()=>{router.push('/Quote')}}
             className="bg-blue-400 hover:bg-green-400 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300"
           >
             Book Appointment
-          </a>
+          </button>
         </div>
       </div>
     </>

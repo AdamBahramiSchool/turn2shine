@@ -2,10 +2,13 @@
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import VanillaTilt from 'vanilla-tilt';
+import { useRouter } from 'next/navigation';
+
+
 
 const Page = () => {
   const cardRefs = useRef([]);
-
+  const router=useRouter();
   const cardImages = [
     "/pressurewashing1.jpg",
     "/windowcleaning1.jpg",
@@ -93,7 +96,7 @@ const Page = () => {
     </div>
   ))}
   <div className="flex justify-center gap-6 mt-5">
-  <button className="bg-blue-800 text-white text-lg mr-10 px-6 py-3 rounded-full hover:bg-green-400 transition-colors duration-300">
+  <button onClick={()=>{router.push('/Quote')}} className="bg-blue-800 text-white text-lg mr-10 px-6 py-3 rounded-full hover:bg-green-400 transition-colors duration-300">
     Get a Quote
   </button>
   <button className="bg-blue-800 text-white text-lg px-10 py-5 rounded-full hover:bg-green-400 transition-colors duration-300">
