@@ -23,9 +23,9 @@ const Gallery = () => {
   }, [isPaused, nextImage]);
 
   return (
-    <section className="w-full min-h-screen bg-gradient-to-b from-blue-200 to-blue-100 mt-16 flex flex-col justify-center">
+    <section className="w-full bg-gradient-to-b from-blue-100 to-white-300">
 
-      <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12">
+      <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
             Our Work Gallery

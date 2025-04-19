@@ -9,18 +9,27 @@ import { useRouter } from 'next/navigation';
 const Page = () => {
   const cardRefs = useRef([]);
   const router=useRouter();
-  const cardImages = [
-    "/pressurewashing1.jpg",
-    "/windowcleaning1.jpg",
-    "/guttercleaning1.jpg",
-    "/christmaslights1.jpg"
-  ];
-
-  const titles = [
-    "Pressure Washing",
-    "Window Cleaning",
-    "Gutter Cleaning",
-    "Christmas Lights"
+  const services = [
+    {
+      image: "/pressurewashing1.jpg",
+      title: "Pressure Washing",
+      route: "/PressureWashing"
+    },
+    {
+      image: "/windowcleaning1.jpg",
+      title: "Window Cleaning",
+      route: "/WindowCleaning"
+    },
+    {
+      image: "/guttercleaning1.jpg",
+      title: "Gutter Cleaning",
+      route: "/GutterCleaning"
+    },
+    {
+      image: "/christmaslights1.jpg",
+      title: "Christmas Lights",
+      route: "/ChristmasLights"
+    }
   ];
 
   useEffect(() => {
@@ -66,31 +75,34 @@ const Page = () => {
      
    {/* Tilt Cards */}
 <div className="flex flex-wrap justify-center gap-6">
-  {cardImages.map((img, i) => (
+  {services.map((service, i) => (
     <div key={i} className="w-full sm:w-1/2 md:w-1/5 lg:w-1/5 flex flex-col items-center">
-      
       {/* Tilt Card */}
       <div
         ref={(el) => (cardRefs.current[i] = el)}
-        className="card w-full overflow-hidden rounded-lg shadow-lg cursor-pointer"
+        onClick={() => router.push(service.route)}
+        className="card w-full overflow-hidden rounded-lg shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-105"
       >
         <div className="relative w-full h-[200px]">
           <Image
-            src={img}
-            alt={titles[i]}
+            src={service.image}
+            alt={service.title}
             fill
             className="object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <h3 className="text-white text-md font-semibold text-center px-2">
-              {titles[i]}
+              {service.title}
             </h3>
           </div>
         </div>
       </div>
 
       {/* See More Button (below tilt card) */}
-      <button className="mt-4 mb-2 bg-green-400 text-white text-sm px-5 py-2 rounded-full hover:bg-green-500 transition-colors duration-300">
+      <button
+        onClick={() => router.push(service.route)}
+        className="mt-4 mb-2 bg-green-400 text-white text-sm px-5 py-2 rounded-full hover:bg-green-500 transition-all duration-300 transform hover:scale-105"
+      >
         See More
       </button>
     </div>
