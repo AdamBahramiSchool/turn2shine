@@ -45,15 +45,15 @@ const Navbar = () => {
 
   return (
     <nav className="bg-blue-400 text-white fixed top-0 left-0 right-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="text-white font-bold text-xl">
             Turn2shine
           </Link>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex space-x-4 items-center ml-auto">
-            <div className="flex items-center mr-2 md:mr-4 lg:mr-6 ml-8 md:ml-12 lg:ml-24 space-x-2 md:space-x-3 lg:space-x-4">
+          <div className="hidden md:flex items-center ml-auto">
+            <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3 lg:space-x-4">
               {navItems.map((item) => {
                 if (item.name === 'Get a Quote') return null; // Exclude from main nav
 
@@ -78,14 +78,14 @@ const Navbar = () => {
 
                   return (
                     <div key={item.name} className="relative group">
-                      <button className="hover:bg-green-400 px-3 py-2 rounded-md text-sm font-medium">
+                      <button className="hover:bg-green-400 px-2 sm:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">
                         {item.name}
                       </button>
-                      <div className="absolute left-0 mt-2 w-64 bg-blue-300 text-white rounded-md shadow-lg invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 z-50">
+                      <div className="absolute left-0 mt-2 w-48 sm:w-56 md:w-64 bg-blue-300 text-white rounded-md shadow-lg invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 z-50">
                         {dropdownItems.map((sub, index) => (
                           <Link key={sub.name} href={sub.href}>
                             <div
-                              className={`px-4 py-2 text-sm font-bold hover:bg-green-400 ${
+                              className={`px-3 sm:px-4 py-2 text-sm font-bold hover:bg-green-400 ${
                                 index !== dropdownItems.length - 1
                                   ? 'border-b border-white'
                                   : ''
@@ -102,7 +102,7 @@ const Navbar = () => {
 
                 return (
                   <Link key={item.name} href={item.href}>
-                    <span className="hover:bg-green-400 px-3 py-2 rounded-md text-sm font-medium">
+                    <span className="hover:bg-green-400 px-2 sm:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">
                       {item.name}
                     </span>
                   </Link>
@@ -110,7 +110,7 @@ const Navbar = () => {
               })}
             </div>
             <Link href="/Quote">
-              <button className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-full">
+              <button className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-3 sm:px-4 rounded-full ml-2 sm:ml-4 whitespace-nowrap">
                 Get a Quote
               </button>
             </Link>
